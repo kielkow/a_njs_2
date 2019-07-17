@@ -1,10 +1,9 @@
 const LivroController = require('../controllers/livro-controller')
 const BaseController = require('../controllers/base-controller')
+const LivroModel = require('../models/livro')
 
 const livroController = new LivroController()
 const baseController = new BaseController()
-
-const { check } = require('express-validator/check');
 
 module.exports = (app) => {
 
@@ -19,17 +18,10 @@ module.exports = (app) => {
 
     app.get(rotasLivro.buscarPorid, livroController.buscaPorId());
 
-    app.post(rotasLivro.adiciona,
-        [
-            check('titulo').isLength({ min: 1 }).withMessage('Titulo precisa de mais caracteres'),
-            check('preco').isCurrency().withMessage('Valor do preço inválido')
-        ],
-        livroController.adiciona()
-    );
+    app.post(rotasLivro.adiciona, LivroModel.validacoes(), livroController.adiciona());
 
     app.put(rotasLivro.atualiza, livroController.atualiza());
 
     app.delete(rotasLivro.remove, livroController.delete());
-
 
 };
