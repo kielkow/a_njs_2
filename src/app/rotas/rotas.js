@@ -8,15 +8,18 @@ const { check } = require('express-validator/check');
 
 module.exports = (app) => {
 
-    app.get('/', baseController.buscaHome());
+    const rotasBase = BaseController.rotas()
+    const rotasLivro = LivroController.rotas()
 
-    app.get('/livros', livroController.lista());
+    app.get(rotasBase.home, baseController.buscaHome());
 
-    app.get('/livros/form', livroController.buscaForm());
+    app.get(rotasLivro.lista, livroController.lista());
 
-    app.get('/livros/form/:id', livroController.buscaPorId());
+    app.get(rotasLivro.buscaForm, livroController.buscaForm());
 
-    app.post('/livros',
+    app.get(rotasLivro.buscarPorid, livroController.buscaPorId());
+
+    app.post(rotasLivro.adiciona,
         [
             check('titulo').isLength({ min: 1 }).withMessage('Titulo precisa de mais caracteres'),
             check('preco').isCurrency().withMessage('Valor do preço inválido')
@@ -24,9 +27,9 @@ module.exports = (app) => {
         livroController.adiciona()
     );
 
-    app.put('/livros', livroController.atualiza());
+    app.put(rotasLivro.atualiza, livroController.atualiza());
 
-    app.delete('/livros/:id', livroController.delete());
+    app.delete(rotasLivro.remove, livroController.delete());
 
 
 };
