@@ -4,13 +4,11 @@ const { validationResult } = require('express-validator');
 
 class LivroController {
 
-    static rotas(){
+    static rotas() {
         return {
             lista: '/livros',
-            buscaForm: '/livros/form',
-            buscarPorid: '/livros/form/:id',
-            adiciona: '/livros',
-            atualiza: '/livros',
+            atualiza: '/livros/form/:id',
+            adiciona: '/livros/form',
             remove: '/livros/:id'
         }
     }
@@ -48,7 +46,7 @@ class LivroController {
             }
 
             livroDao.adiciona(req.body)
-                .then(resp.redirect(LivroController.rotas().adiciona))
+                .then(resp.redirect(LivroController.rotas().lista))
                 .catch(erro => console.log(erro));
         }
     }
@@ -75,7 +73,7 @@ class LivroController {
             const livroDao = new LivroDao(db);
 
             livroDao.atualiza(req.body)
-                .then(resp.redirect(LivroController.rotas().atualiza))
+                .then(resp.redirect(LivroController.rotas().lista))
                 .catch(erro => console.log(erro));
         }
     }
