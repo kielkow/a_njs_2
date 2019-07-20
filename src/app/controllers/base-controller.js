@@ -29,6 +29,8 @@ class BaseController {
     efetuaLogin() {
         return function (req, resp, next) {
 
+            const passport = req.passport
+
             passport.authenticate('local', (erro, usuario, info) => {
                 if (info) {
                     return resp.marko(templates.base.login)
@@ -45,8 +47,7 @@ class BaseController {
 
                     return resp.redirect(LivroController.rotas().lista)
                 })
-            })
-            (req, resp, next)
+            })(req, resp, next)
         }
     }
 }
