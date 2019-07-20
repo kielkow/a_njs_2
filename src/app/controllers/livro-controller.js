@@ -75,6 +75,18 @@ class LivroController {
             console.log(req.body);
             const livroDao = new LivroDao(db);
 
+            const erros = validationResult(req)
+
+            if (!erros.isEmpty()) {
+                return resp.marko(
+                    templates.livros.form,
+                    {
+                        livro: req.body,
+                        errosValidacao: erros.array()
+                    }
+                )
+            }
+
             livroDao.atualiza(req.body)
                 .then(resp.redirect(LivroController.rotas().lista))
                 .catch(erro => console.log(erro));
