@@ -45,7 +45,7 @@ module.exports = (app) => {
 
 
     app.use(sessao({
-        secret: 'node alura',
+        secret: 'node',
         genid: function (req) {
             return uuid()
         },
